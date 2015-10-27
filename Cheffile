@@ -3,8 +3,8 @@
 
 site 'https://supermarket.getchef.com/api/v1'
 
-# cookbook 'chef-client'
 cookbook 'apache2', '~> 3.1.0'
+cookbook 'postgresql', '~> 3.4.20'
 
 # cookbook 'rvm',
 #   :git => 'https://github.com/fnichol/chef-rvm'

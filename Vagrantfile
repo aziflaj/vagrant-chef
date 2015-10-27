@@ -6,12 +6,6 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu1404"
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
@@ -20,10 +14,12 @@ Vagrant.configure(2) do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # Port for Apache server
   config.vm.network "forwarded_port", guest: 80, host: 8080
+  # Port for accessing MySQL
+  config.vm.network "forwarded_port", guest: 3306, host: 33060
+  # Port for accessing PostgreSQL
+  config.vm.network "forwarded_port", guest: 5432, host: 54320
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -40,30 +36,36 @@ Vagrant.configure(2) do |config|
   # argument is a set of non-required options.
   config.vm.synced_folder "./Code", "/home/vagrant/Code"
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
     chef.add_recipe "apache2"
+    chef.add_recipe "postgresql"
     chef.json = {
       apache: {
         default_site_enabled: true
+      },
+      postgresql: {
+        enable_pgdg_apt: true,
+        version: "9.4",
+        client: {
+          packages: ["postgresql-9.4", "postgresql-client-9.4"]
+        },
+        server: {
+          packages: ["postgresql-server-dev-9.4"],
+          service_name: "postgresql-9.4",
+          config_change_notify: :reload
+        },
+        password: {
+          # password
+          postgres: 'md532e12f215ba27cb750c9e093ce4b5127'
+        },
+        config: {
+          port: 5432,
+          listen_addresses: 'localhost'
+        }
       }
     }
   end
