@@ -1,1 +1,9 @@
-.vagrant
+# Vagrant specific files/folders
+.vagrant/
+
+# .lock files for Gemfile and Cheffile
+*.lock
+
+# Chef files/folders
+cookbooks/
+tmp/
