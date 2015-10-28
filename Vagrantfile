@@ -9,11 +9,6 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu1404"
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
   # Port for Apache server
   config.vm.network "forwarded_port", guest: 80, host: 8080
   # Port for accessing MySQL
@@ -41,12 +36,16 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
+
     chef.add_recipe "apache2"
     chef.add_recipe "postgresql"
+    chef.add_recipe "php"
+
     chef.json = {
       apache: {
         default_site_enabled: true
       },
+
       postgresql: {
         enable_pgdg_apt: true,
         version: "9.4",
