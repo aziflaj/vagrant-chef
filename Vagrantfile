@@ -40,10 +40,21 @@ Vagrant.configure(2) do |config|
     chef.add_recipe "apache2"
     chef.add_recipe "postgresql"
     chef.add_recipe "php"
+    chef.add_recipe "nodejs"
 
     chef.json = {
       apache: {
         default_site_enabled: true
+      },
+
+      nodejs: {
+        engine: 'node',
+        npm_packages: [
+          { name: "bower" },
+          { name: "gulp" },
+          { name: "grunt-cli" },
+          { name: "yo" }
+        ]
       },
 
       postgresql: {
