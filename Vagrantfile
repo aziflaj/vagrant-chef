@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -61,11 +61,10 @@ Vagrant.configure(2) do |config|
         enable_pgdg_apt: true,
         version: "9.4",
         client: {
-          packages: ["postgresql-9.4", "postgresql-client-9.4"]
+          packages: ["postgresql-client"]
         },
         server: {
-          packages: ["postgresql-server-dev-9.4"],
-          service_name: "postgresql-9.4",
+          packages: ["postgresql"],
           config_change_notify: :reload
         },
         password: {
