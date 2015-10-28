@@ -11,8 +11,6 @@ Vagrant.configure(2) do |config|
 
   # Port for Apache server
   config.vm.network "forwarded_port", guest: 80, host: 8080
-  # Port for accessing MySQL
-  config.vm.network "forwarded_port", guest: 3306, host: 33060
   # Port for accessing PostgreSQL
   config.vm.network "forwarded_port", guest: 5432, host: 54320
 
@@ -25,15 +23,10 @@ Vagrant.configure(2) do |config|
   # your network.
   # config.vm.network "public_network"
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  config.vm.synced_folder "./Code", "/home/vagrant/Code"
+  # Shared & synced folders
+  config.vm.synced_folder "./Code", "/var/www/Code"
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
+  # Chef provisioning
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
 
@@ -45,6 +38,12 @@ Vagrant.configure(2) do |config|
     chef.json = {
       apache: {
         default_site_enabled: true
+      },
+
+      php: {
+        pear: {
+          package_name: "mongo"
+        }
       },
 
       nodejs: {

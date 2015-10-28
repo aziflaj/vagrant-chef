@@ -15,15 +15,13 @@ This will download `librarian-chef`, a tool for helping with Chef **cookbooks**.
 
 > A cookbook is the fundamental unit of configuration and policy distribution in Chef. Each cookbook defines a scenario, such as everything needed to install and configure MySQL, and then it contains all of the components that are required to support that scenario. Chef maintains a collection of cookbooks that are important to Chef and are widely used by the Chef community. source: [Chef Supermarket](http://supermarket.chef.io/)
 
-Also, it will add a `Gemfile.lock` file.
-
 Then, download the cookbooks:
 
 ```bash
 $ librarian-chef install
 ```
 
-This will download the cookbooks. Also, it will create a `Cheffile.lock` file.
+This will download the cookbooks.
 
 Finally, create the virtual machine:
 
