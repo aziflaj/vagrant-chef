@@ -1,6 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'json'
+
+vagrant_json = JSON.parse(Pathname(__FILE__).dirname
+                .join('nodes', (ENV['NODE'] || 'web1.example.com.json')).read)
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -25,6 +30,12 @@ Vagrant.configure(2) do |config|
   # config.vm.synced_folder "./Code", "/var/www/Code"
 
   # Chef provisioning
-  # config.vm.provision :chef_solo do |chef|
-  # end
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.roles_path = "roles"
+    chef.data_bags_path = "data_bags"
+
+    chef.run_list = vagrant_json.delete('run_list')
+    chef.json = vagrant_json
+  end
 end
