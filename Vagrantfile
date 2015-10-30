@@ -25,19 +25,25 @@ Vagrant.configure(2) do |config|
 
   # Shared & synced folders
   config.vm.synced_folder "./Code", "/var/www/Code"
+  config.vm.synced_folder "./mysite", "/var/www/mysite"
 
   # Chef provisioning
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = "cookbooks"
+    chef.cookbooks_path = ["cookbooks", "my-cookbooks"]
 
+    # vendor recipes
     chef.add_recipe "apache2"
     chef.add_recipe "postgresql"
     chef.add_recipe "php"
     chef.add_recipe "nodejs"
 
+    # my recipes
+    chef.add_recipe "mysite"
+
     chef.json = {
       apache: {
-        default_site_enabled: true
+        # default_site_enabled: true,
+        default_modules: ["mod_php5"]
       },
 
       php: {
