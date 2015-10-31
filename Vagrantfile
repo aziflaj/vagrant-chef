@@ -24,8 +24,7 @@ Vagrant.configure(2) do |config|
   # config.vm.network "public_network"
 
   # Shared & synced folders
-  config.vm.synced_folder "./Code", "/var/www/Code"
-  config.vm.synced_folder "./mysite", "/var/www/mysite"
+  config.vm.synced_folder "./Code", "/var/www/mysite"
 
   # Chef provisioning
   config.vm.provision :chef_solo do |chef|
@@ -35,6 +34,7 @@ Vagrant.configure(2) do |config|
     chef.add_recipe "apache2"
     chef.add_recipe "postgresql"
     chef.add_recipe "php"
+    chef.add_recipe "composer"
     chef.add_recipe "nodejs"
 
     # my recipes

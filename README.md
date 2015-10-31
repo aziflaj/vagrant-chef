@@ -32,8 +32,9 @@ $ vagrant up
 This will create a virtual machine that runs Ubuntu 14.04 as Operating System, with all the configurations we did using Chef. The VM is provisioned with:
 
 - PostgreSQL, with username `postgres` and password `password`
-- Apache2 webserver, with `mod_php5` included.
-- PHP
+- Apache2 webserver
+- PHP 5.5.9
+- PHP Composer
 - Node.js and npm package manager, including bower, grunt, gulp and yeoman
 
 To access the virtual host created, add this to your `hosts` file:
