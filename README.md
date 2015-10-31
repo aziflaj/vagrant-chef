@@ -36,10 +36,8 @@ This will create a virtual machine that runs Ubuntu 14.04 as Operating System, w
 - PHP
 - Node.js and npm package manager, including bower, grunt, gulp and yeoman
 
-To access the virtual host created, add:
+To access the virtual host created, add this to your `hosts` file:
 
 ```
 192.168.33.10       my-site.dev www.my-site.dev
 ```
-
-to your `hosts` file.
